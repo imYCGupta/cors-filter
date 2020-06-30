@@ -45,6 +45,19 @@ public class CORSFilter implements Filter{
 			RequestDispatcher dispatcher = request.getRequestDispatcher(request.getRequestURI());			
 			dispatcher.forward(request, new HttpServletResponseWrapper(response));
 		}else {
+			//Trusted Origin URL like https://www.myapplication.com. Multiple can be defined with comma seperated
+			response.addHeader("Access-Control-Allow-Origin", "*");
+			//Request Method you want to allow after this
+			response.addHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
+			//Maximum number of seconds to send request
+			response.addHeader("Access-Control-Max-Age", "3600");
+			//Headers allowed in incoming request including custom header like Authorization
+			response.addHeader("Access-Control-Allow-Headers",
+					"Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin ,Authorization");
+			//Whether to expose credentials to Javascript or not
+			response.addHeader("Access-Control-Allow-Credentials", "true");
+			//if you are exposing your app to third-party and your headers need to be read by third party then expose that headers like below (if Authorization header is exposed)
+			response.addHeader("Access-Control-Expose-Headers", "Authorization");
 			chain.doFilter(request, response);
 		}
 	}
